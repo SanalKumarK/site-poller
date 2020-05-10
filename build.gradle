@@ -4,7 +4,8 @@ plugins {
   id 'com.github.johnrengelman.shadow' version '2.0.4'
 }
 ext {
-  vertxVersion = '3.6.3'
+  //vertxVersion = '3.6.3'
+  vertxVersion = '3.9.0'
   junitJupiterEngineVersion = '5.2.0'
 }
 
@@ -58,6 +59,6 @@ run {
   args = ['run', mainVerticleName, "--redeploy=$watchForChange", "--launcher-class=$mainClassName", "--on-redeploy=$doOnChange"]
 }
 
-task wrapper(type: Wrapper) {
+task wrapper_1(type: Wrapper) {
   gradleVersion = '4.6'
 }

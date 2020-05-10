@@ -5,13 +5,32 @@
     <title>Welcome to KRY</title>
 </head>
 <body>
-KRY status poller
-<ul id="service-list">
-</ul>
-<input type="text" id="url-name">
-<button id="post-service">Save</button>
-
+<div><span style="font-size: 24px">KRY status poller</span></div>
+<hr/>
+<div class="row">
+    <div>
+        <form id="add-service-form">
+            <label for="name">Name:</label> <input placeholder="Service Name" type="text" id="name" required>
+            <label for="url">URL:</label> <input type="url" id="url" placeholder="https://example.com" required>
+            <button id="add-service">Add</button>
+        </form>
+    </div>
+    <div><button id="delete-service">Delete</button></div>
+    <div id="msg"></div>
+</div>
+<hr/>
+<table id="service-table">
+    <thead>
+        <tr>
+            <th>Select</th>
+            <th>Name</th>
+            <th>URL</th>
+            <th>Status</th>
+            <th>Date</th>
+        </tr>
+    </thead>
+</table>
 </body>
-<script src="static/code.js">
-</script>
+<script src="static/code.js"></script>
+<link rel="stylesheet" type="text/css" href="./static/css/design.css">
 </html>

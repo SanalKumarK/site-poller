@@ -1,7 +1,9 @@
 package se.kry.codetest;
 
+import io.vertx.codegen.annotations.Nullable;
 import io.vertx.core.Vertx;
 import io.vertx.core.json.JsonArray;
+import io.vertx.core.json.JsonObject;
 import io.vertx.ext.web.client.WebClient;
 import io.vertx.junit5.Timeout;
 import io.vertx.junit5.VertxExtension;
@@ -13,28 +15,82 @@ import org.junit.jupiter.api.extension.ExtendWith;
 
 import java.util.concurrent.TimeUnit;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.*;
 
 @ExtendWith(VertxExtension.class)
 public class TestMainVerticle {
 
-  @BeforeEach
-  void deploy_verticle(Vertx vertx, VertxTestContext testContext) {
-    vertx.deployVerticle(new MainVerticle(), testContext.succeeding(id -> testContext.completeNow()));
-  }
+    @BeforeEach
+    void deploy_verticle(Vertx vertx, VertxTestContext testContext) {
+        vertx.deployVerticle(new MainVerticle(), testContext.succeeding(id -> testContext.completeNow()));
+    }
 
-  @Test
-  @DisplayName("Start a web server on localhost responding to path /service on port 8080")
-  @Timeout(value = 10, timeUnit = TimeUnit.SECONDS)
-  void start_http_server(Vertx vertx, VertxTestContext testContext) {
-    WebClient.create(vertx)
-        .get(8080, "::1", "/service")
-        .send(response -> testContext.verify(() -> {
-          assertEquals(200, response.result().statusCode());
-          JsonArray body = response.result().bodyAsJsonArray();
-          assertEquals(1, body.size());
-          testContext.completeNow();
-        }));
-  }
+    @Test
+    @DisplayName("Start a web server on localhost responding to path /service on port 8080")
+    @Timeout(value = 10, timeUnit = TimeUnit.SECONDS)
+    void get_service_request(Vertx vertx, VertxTestContext testContext) {
+        WebClient.create(vertx)
+                .get(8080, "::1", "/service")
+                .send(response -> testContext.verify(() -> {
+                    assertEquals(200, response.result().statusCode());
+                    JsonArray body = response.result().bodyAsJsonArray();
+                    assertNotNull(body);
+                    testContext.completeNow();
+                }));
+    }
 
+    @Test
+    @DisplayName("Start a web server on localhost responding to path /service with post request on port 8080")
+    @Timeout(value = 10, timeUnit = TimeUnit.SECONDS)
+    void add_service_request(Vertx vertx, VertxTestContext testContext) {
+        WebClient.create(vertx)
+                .post(8080, "::1", "/service")
+                .sendJsonObject(new JsonObject()
+                        .put("name", "service1")
+                        .put("url", "http://localhost:8080/service"), response -> testContext.verify(() -> {
+                    assertEquals(200, response.result().statusCode());
+                    @Nullable String body = response.result().bodyAsString();
+                    System.out.println(body);
+                    assertNotNull(body);
+                    testContext.completeNow();
+                }));
+
+        WebClient.create(vertx)
+                .get(8080, "::1", "/service")
+                .send(response -> testContext.verify(() -> {
+                    assertEquals(200, response.result().statusCode());
+                    JsonArray body = response.result().bodyAsJsonArray();
+                    assertNotNull(body);
+                    testContext.completeNow();
+                }));
+    }
+
+    @Test
+    @DisplayName("Start a web server on localhost responding to path /service with post request on port 8080")
+    @Timeout(value = 10, timeUnit = TimeUnit.SECONDS)
+    void delete_service_request(Vertx vertx, VertxTestContext testContext) {
+        WebClient.create(vertx)
+                .post(8080, "::1", "/service")
+                .sendJsonObject(new JsonObject()
+                        .put("name", "service1")
+                        .put("url", "http://localhost:8080/service"), response -> testContext.verify(() -> {
+                    assertEquals(200, response.result().statusCode());
+                    @Nullable String body = response.result().bodyAsString();
+                    System.out.println(body);
+                    assertNotNull(body);
+                    testContext.completeNow();
+                }));
+
+        JsonArray urls = new JsonArray();
+        urls.add("http://localhost:8080/service");
+        WebClient.create(vertx)
+                .delete(8080, "::1", "/service")
+                .sendJson(urls, response -> testContext.verify(() -> {
+                    assertEquals(200, response.result().statusCode());
+                    @Nullable String body = response.result().bodyAsString();
+                    System.out.println(body);
+                    assertNotNull(body);
+                    testContext.completeNow();
+                }));
+    }
 }
