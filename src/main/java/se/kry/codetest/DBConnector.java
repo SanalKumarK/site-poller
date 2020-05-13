@@ -30,6 +30,12 @@ public class DBConnector {
         return query(query, new JsonArray());
     }
 
+    /**
+     * Query with parameters.
+     * @param query
+     * @param params
+     * @return
+     */
     public Future<ResultSet> query(String query, JsonArray params) {
         if (query == null || query.isEmpty()) {
             return Future.failedFuture("Query is null or empty");
@@ -51,6 +57,12 @@ public class DBConnector {
         return queryResultFuture;
     }
 
+    /**
+     * Update operation for batch requests.
+     * @param query
+     * @param params
+     * @return Future<UpdateResult>
+     */
     public Future<UpdateResult> updateBatchQuery(final String query, List<JsonArray> params) {
         if (query == null || query.isEmpty()) {
             return Future.failedFuture("Query is null or empty");
@@ -82,6 +94,12 @@ public class DBConnector {
         return queryResultFuture;
     }
 
+    /**
+     * Update query.
+     * @param query
+     * @param params
+     * @return Future<UpdateResult>
+     */
     public Future<UpdateResult> updateQuery(String query, JsonArray params) {
         if (query == null || query.isEmpty()) {
             return Future.failedFuture("Query is null or empty");

@@ -38,14 +38,12 @@ public class MainVerticle extends AbstractVerticle {
                 });
     }
 
+    /**
+     * Trigger the polling, operation with an interval of 1 min.
+     */
     private void triggerPolling() {
         poller = new BackgroundPoller(vertx, serviceProcessor);
-        connector.query(ServiceProcessor.SELECT_ALL_QUERY)
-                .onComplete(result -> {
-                    if (result.succeeded()) {
-                        vertx.setPeriodic(1000 * 60, timerId -> poller.pollServices());
-                    }
-                });
+        vertx.setPeriodic(1000 * 60, timerId -> poller.pollServices());
     }
 
     private void setRoutes(Router router) {
@@ -69,12 +67,13 @@ public class MainVerticle extends AbstractVerticle {
             JsonObject jsonBody = req.getBodyAsJson();
             String msg = validateInput(jsonBody);
             if (msg != null) {
+                //If validation failed, return the reason for the failure.
                 req.response()
                         .putHeader("content-type", "text/plain")
                         .end(msg);
                 return;
             }
-
+            //save the service, and return the result.
             serviceProcessor.saveService(jsonBody.getString("name"),
                     jsonBody.getString("url")).onComplete(result -> {
                 req.response()
@@ -83,6 +82,7 @@ public class MainVerticle extends AbstractVerticle {
             });
         });
         router.delete("/service").handler(req -> {
+            //Process delete service request.
             JsonArray servicesList = req.getBodyAsJsonArray();
             if (servicesList == null || servicesList.isEmpty()) {
                 req.response()

@@ -16,12 +16,17 @@ public class BackgroundPoller {
         this.serviceProcessor = serviceProcessor;
     }
 
+    /**
+     * Poll all the services available.
+     */
     public void pollServices() {
         serviceProcessor.getServicesList().onComplete(event -> {
             if (event.succeeded()) {
                 for (JsonObject row : event.result().getRows()) {
                     String site = row.getString("url");
                     try {
+                        //A get request is send with timeout of 5000 sec,
+                        //and update the service status based on the response.
                         WebClient.create(vertx)
                                 .getAbs(site)
                                 .timeout(5000)

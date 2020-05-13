@@ -1,3 +1,6 @@
+/**
+ * Manage Service Entity.
+ */
 package se.kry.codetest;
 
 import io.vertx.core.Future;
@@ -24,6 +27,10 @@ public class ServiceProcessor {
         dbConnector = connector;
     }
 
+    /**
+     * Return list of services.
+     * @return Services List
+     */
     public Future<ResultSet> getServicesList() {
         Promise<ResultSet> resultSetFuture = Promise.promise();
         dbConnector.query(ServiceProcessor.SELECT_ALL_QUERY)
@@ -32,6 +39,12 @@ public class ServiceProcessor {
         return resultSetFuture.future();
     }
 
+    /**
+     * Persist the service.
+     * @param name
+     * @param url
+     * @return status of the operation.
+     */
     public Future<String> saveService(String name, String url) {
         JsonArray params = new JsonArray().add(name).add(url).add("Unknown");
         Promise<String> result = Promise.promise();
@@ -41,6 +54,12 @@ public class ServiceProcessor {
         return result.future();
     }
 
+    /**
+     * Update service status.
+     * @param url
+     * @param status
+     * @return Status of the update operation.
+     */
     public Future<String> updateServiceStatus(String url, String status) {
         JsonArray params = new JsonArray().add(status).add(url);
         Promise<String> result = Promise.promise();
@@ -50,6 +69,13 @@ public class ServiceProcessor {
         return result.future();
     }
 
+    /**
+     * Update service status batch based on the configured cache Size.
+     * When cache is full, a batch request will be processed.
+     * @param url
+     * @param status
+     * @return
+     */
     public Future<String> updateServiceStatusBatch(String url, String status) {
         JsonArray param = new JsonArray().add(status).add(url);
         queryQueue.add(param);
@@ -68,6 +94,11 @@ public class ServiceProcessor {
         return result.future();
     }
 
+    /**
+     * Delete the services from the given servicesList.
+     * @param servicesList - List of Url strings.
+     * @return Status of the operation.
+     */
     public Future<String> deleteServices(List servicesList) {
         List<JsonArray> params = new ArrayList<>();
         servicesList.stream().forEach(o -> {

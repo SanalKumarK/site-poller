@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testsuite name="se.kry.codetest.TestMainVerticle" tests="3" skipped="0" failures="0" errors="0" timestamp="2020-05-13T07:26:10" hostname="SANAL-PC" time="4.776">
+  <properties/>
+  <testcase name="get_service_request(Vertx, VertxTestContext)" classname="se.kry.codetest.TestMainVerticle" time="4.599"/>
+  <testcase name="add_service_request(Vertx, VertxTestContext)" classname="se.kry.codetest.TestMainVerticle" time="0.091"/>
+  <testcase name="delete_service_request(Vertx, VertxTestContext)" classname="se.kry.codetest.TestMainVerticle" time="0.081"/>
+  <system-out><![CDATA[KRY code test service started
+KRY code test service started
+Please provide a valid URL.
+KRY code test service started
+Please provide a valid URL.
+]]></system-out>
+  <system-err><![CDATA[May 13, 2020 9:26:13 AM com.mchange.v2.log.MLog 
+INFO: MLog clients using java 1.4+ standard logging.
+May 13, 2020 9:26:13 AM com.mchange.v2.c3p0.C3P0Registry 
+INFO: Initializing c3p0-0.9.5.4 [built 23-March-2019 23:00:48 -0700; debug? true; trace: 10]
+May 13, 2020 9:26:14 AM com.mchange.v2.c3p0.impl.AbstractPoolBackedDataSource 
+INFO: Initializing c3p0 pool... com.mchange.v2.c3p0.ComboPooledDataSource [ acquireIncrement -> 3, acquireRetryAttempts -> 30, acquireRetryDelay -> 1000, autoCommitOnClose -> false, automaticTestTable -> null, breakAfterAcquireFailure -> false, checkoutTimeout -> 0, connectionCustomizerClassName -> null, connectionTesterClassName -> com.mchange.v2.c3p0.impl.DefaultConnectionTester, contextClassLoaderSource -> caller, dataSourceName -> 1hge0wmaa3l4db9c1xy1e|85e212a, debugUnreturnedConnectionStackTraces -> false, description -> null, driverClass -> org.sqlite.JDBC, extensions -> {}, factoryClassLocation -> null, forceIgnoreUnresolvedTransactions -> false, forceSynchronousCheckins -> false, forceUseNamedDriverClass -> false, identityToken -> 1hge0wmaa3l4db9c1xy1e|85e212a, idleConnectionTestPeriod -> 0, initialPoolSize -> 3, jdbcUrl -> jdbc:sqlite:poller.db, maxAdministrativeTaskTime -> 0, maxConnectionAge -> 0, maxIdleTime -> 0, maxIdleTimeExcessConnections -> 0, maxPoolSize -> 30, maxStatements -> 0, maxStatementsPerConnection -> 0, minPoolSize -> 3, numHelperThreads -> 3, preferredTestQuery -> null, privilegeSpawnedThreads -> false, properties -> {}, propertyCycle -> 0, statementCacheNumDeferredCloseThreads -> 0, testConnectionOnCheckin -> false, testConnectionOnCheckout -> false, unreturnedConnectionTimeout -> 0, userOverrides -> {}, usesTraditionalReflectiveProxies -> false ]
+]]></system-err>
+</testsuite>
